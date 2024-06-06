@@ -5,7 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata = {
-  title: "Stock Robot by Jim Strand",
+  title: "Stock Robot",
   description: "Automated stock advisory system",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
