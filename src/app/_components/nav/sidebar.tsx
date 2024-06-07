@@ -1,3 +1,4 @@
+import Dashboard1 from "../pages/dashboard1";
 
 export default async function Sidebar() {
     return (
@@ -213,6 +214,12 @@ export default async function Sidebar() {
           </div>
         </div>
       </aside>
+
+      <main className="flex-1 flex justify-center items-center">
+        <h1 className="text-4xl"><Dashboard1 /></h1>
+      </main>
+
+
     </div>
   );
 };
