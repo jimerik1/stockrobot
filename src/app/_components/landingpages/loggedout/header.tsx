@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../assets/logo.svg'; // Adjust the path as needed
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 const HeaderLO: React.FC = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);

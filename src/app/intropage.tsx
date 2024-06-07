@@ -8,6 +8,7 @@ import Header from "./_components/nav/header";
 import Sidebar from "./_components/nav/sidebar";
 import MainLandingPage from "./_components/landingpages/loggedout/mainlandingpage";
 import LoggedInLandingPage from "./_components/landingpages/loggedin/loggedinlandingpage";
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 type Session = {
   user: any; // replace `any` with the actual user type if known
