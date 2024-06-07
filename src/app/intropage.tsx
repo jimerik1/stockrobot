@@ -9,14 +9,23 @@ import Sidebar from "./_components/nav/sidebar";
 import MainLandingPage from "./_components/landingpages/loggedout/mainlandingpage";
 import LoggedInLandingPage from "./_components/landingpages/loggedin/loggedinlandingpage";
 
-const LoggedOutContent = ({ hello }: { hello: any }) => (
-      <MainLandingPage />
+interface HelloProps {
+  text: string;
+}
+
+interface Session {
+  user: {
+    name: string;
+    email: string;
+  };
+}
+
+const LoggedOutContent = ({ hello }: { hello: HelloProps }) => (
+  <MainLandingPage />
 );
 
-const LoggedInContent = ({ session }: { session: any }) => (
-
-      <LoggedInUser />
-
+const LoggedInContent = ({ session }: { session: Session }) => (
+  <LoggedInUser />
 );
 
 async function LoggedInUser() {
@@ -31,8 +40,8 @@ async function LoggedInUser() {
 }
 
 export default async function IntroPage() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await getServerAuthSession();
+  const hello: HelloProps = await api.post.hello({ text: "from tRPC" });
+  const session: Session = await getServerAuthSession();
 
   return (
     <main>
