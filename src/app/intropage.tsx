@@ -10,14 +10,16 @@ import MainLandingPage from "./_components/landingpages/loggedout/mainlandingpag
 import LoggedInLandingPage from "./_components/landingpages/loggedin/loggedinlandingpage";
 
 interface HelloProps {
-  text: string;
+  greeting: string;  // Updated to match the API response
+}
+
+interface User {
+  name: string;
+  email: string;
 }
 
 interface Session {
-  user: {
-    name: string;
-    email: string;
-  };
+  user: User;
 }
 
 const LoggedOutContent = ({ hello }: { hello: HelloProps }) => (
