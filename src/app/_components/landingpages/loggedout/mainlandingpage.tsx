@@ -1,6 +1,3 @@
-
-import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 import HeaderLO from "./header";
 import HeroSection from "./herosection";
 import ProductScreenshot from "./productscreenshot";
@@ -19,7 +16,7 @@ export default async function MainLandingPage() {
     <LogoClouds />
     <ProductScreenshot />
     <PageStats />
-    
+
     </div>
   );
 }
