@@ -17,7 +17,7 @@ const HeaderLO: React.FC = () => {
         <div className="flex lg:flex-1">
           <Link href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <Image className="h-8 w-auto" src={logo} alt="StockRobot Logo" />
+            <Image className="h-8 w-auto" src={logo as string} alt="StockRobot Logo" />
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -144,7 +144,7 @@ const HeaderLO: React.FC = () => {
             <div className="flex items-center justify-between">
               <Link href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <Image className="h-8 w-auto" src={logo} alt="Company Logo" />
+                <Image className="h-8 w-auto" src={logo as string} alt="Company Logo" />
               </Link>
               <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">Close menu</span>
