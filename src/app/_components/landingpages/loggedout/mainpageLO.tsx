@@ -25,6 +25,14 @@ export default async function MainLandingPageLO() {
           />
         </section>
 
+        <section className="content py-8">
+          <div className="flex justify-center box-border h-32 p-4 border-2 w-full md:w-3/4 mx-auto">
+            {hello.greeting}. This will be testing merge requests.
+          </div>
+          {/* Add more content here as needed */}
+        </section>
+
+
         {/* Normal Content Section */}
         <section className="content py-8">
           <div className="flex justify-center box-border h-32 p-4 border-2 w-full md:w-3/4 mx-auto">
