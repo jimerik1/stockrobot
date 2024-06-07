@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
