@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
@@ -10,7 +11,7 @@ import MainLandingPage from "./_components/landingpages/loggedout/mainlandingpag
 import LoggedInLandingPage from "./_components/landingpages/loggedin/loggedinlandingpage";
 
 interface HelloProps {
-  greeting: string;  // Updated to match the API response
+  greeting: string;
 }
 
 interface User {
@@ -20,6 +21,11 @@ interface User {
 
 interface Session {
   user: User;
+}
+
+interface Props {
+  hello: HelloProps;
+  session: Session | null;
 }
 
 const LoggedOutContent = ({ hello }: { hello: HelloProps }) => (
@@ -41,10 +47,7 @@ async function LoggedInUser() {
   );
 }
 
-export default async function IntroPage() {
-  const hello: HelloProps = await api.post.hello({ text: "from tRPC" });
-  const session: Session = await getServerAuthSession();
-
+const IntroPage = ({ hello, session }: Props) => {
   return (
     <main>
       {session ? (
@@ -52,6 +55,37 @@ export default async function IntroPage() {
       ) : (
         <LoggedOutContent hello={hello} />
       )}
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-2xl text-white">
+          {hello ? hello.greeting : "Loading tRPC query..."}
+        </p>
+
+        <div className="flex flex-col items-center justify-center gap-4">
+          <p className="text-center text-2xl text-white">
+            {session && <span>Logged in as {session.user?.name}</span>}
+          </p>
+          <Link
+            href={session ? "/api/auth/signout" : "/api/auth/signin"}
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+          >
+            {session ? "Sign out" : "Sign in"}
+          </Link>
+        </div>
+      </div>
     </main>
   );
-}
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const hello: HelloProps = await api.post.hello({ text: "from tRPC" });
+  const session: Session | null = await getServerAuthSession(context);
+
+  return {
+    props: {
+      hello,
+      session,
+    },
+  };
+};
+
+export default IntroPage;
