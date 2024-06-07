@@ -1,15 +1,21 @@
 
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
-import IntroPage from "./intropage";
+import Link from "next/link";
+import HeaderLO from "./header";
+import MainLandingPageLO from "./mainpageLO";
 
-export default async function Main() {
+
+export default async function MainLandingPage() {
   const hello = await api.post.hello({ text: "from tRPC" });
   const session = await getServerAuthSession();
 
   return (
     <div>
-        <IntroPage />
+
+    <HeaderLO />
+    <MainLandingPageLO />
+
     </div>
   );
 }
