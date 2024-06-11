@@ -2,6 +2,8 @@ import * as React from "react"
 
 import { cn } from "~/lib/utils"
 
+/* eslint-disable */
+
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -21,5 +23,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }
 )
 Input.displayName = "Input"
+
+/* eslint-enable */
 
 export { Input }

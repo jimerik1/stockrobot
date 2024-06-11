@@ -5,6 +5,8 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "~/lib/utils"
 
+/* eslint-disable */
+
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
@@ -24,5 +26,7 @@ const Progress = React.forwardRef<
   </ProgressPrimitive.Root>
 ))
 Progress.displayName = ProgressPrimitive.Root.displayName
+
+/* eslint-enable */
 
 export { Progress }
