@@ -12,7 +12,7 @@ const config = {
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked"
   ],
-  "ignorePatterns": ["./src/components/ui/*"],
+  "ignorePatterns": ["./src/components/ui/input.tsx", "./src/components/ui/progress.tsx"],
   "rules": {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
