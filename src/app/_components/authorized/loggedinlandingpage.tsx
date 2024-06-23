@@ -5,6 +5,7 @@ import { Dashboard1 } from "./dashboard1";
 import { Dashboard2 } from "./dashboard2";
 import { Header } from "./header";
 import { Sidebar } from "./sidebar";
+import Old from "~/app/old";
 
 
 export default async function LoggedInLandingPage() {
@@ -17,8 +18,7 @@ export default async function LoggedInLandingPage() {
     <Sidebar />
     <Dashboard1 />
     <Dashboard2 />
-    <Dashboard1 />
-    <Dashboard1 />
+    <Old />
   </div>
   );
 }
