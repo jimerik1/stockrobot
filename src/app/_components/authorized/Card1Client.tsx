@@ -61,7 +61,7 @@ export default function Card1Client({ initialStockData }: Card1ClientProps) {
         stockData.map((stock, index) => (
           <div key={index} className="mb-4">
             <p className="text-lg font-bold">{stock.ticker}</p>
-            <p>Date: {format(new Date(stock.date), 'MM/dd/yyyy')}</p>  // Ensure consistent date format
+            <p>Date: {format(new Date(stock.date), 'MM/dd/yyyy')}</p>  
             <p>Open: {stock.priceOpen}</p>
             <p>High: {stock.priceHigh}</p>
             <p>Low: {stock.priceLow}</p>
