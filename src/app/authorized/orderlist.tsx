@@ -1,7 +1,7 @@
 import { CircleUser, Menu } from "lucide-react"
 
 
-import { Badge } from "../../../components/ui/badge"
+import { Badge } from "../../components/ui/badge"
 
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card"
+} from "../../components/ui/card"
 
 import {
   Table,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../components/ui/table"
+} from "../../components/ui/table"
 
 
 
