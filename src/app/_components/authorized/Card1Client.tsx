@@ -36,8 +36,8 @@ export default function Card1Client({ initialStockData }: Card1ClientProps) {
     setCount(parseInt(e.target.value, 10));
   };
 
-  const handleButtonClick = () => {
-    refetch();
+  const handleButtonClick = async () => {
+    await refetch();
   };
 
   return (
