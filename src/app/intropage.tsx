@@ -2,7 +2,7 @@ import React from "react";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import MainLandingPage from "./_components/landingpages/mainlandingpage";
-import LoggedInLandingPage from "./_components/authorized/loggedinlandingpage";
+import LoggedInLandingPage from "./authorized/loggedinlandingpage";
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 type Session = {

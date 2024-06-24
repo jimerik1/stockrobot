@@ -25,7 +25,7 @@ import {
   TooltipContent,
   TooltipTrigger,
   TooltipProvider
-} from "../../../components/ui/tooltip"
+} from "../../components/ui/tooltip"
 
 export function Sidebar(){
 

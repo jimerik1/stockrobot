@@ -1,29 +1,20 @@
+// Dashboard1.tsx
 import * as React from "react";
-import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
-import Card1Client from "./Card1Client";  // Adjust the import path as necessary
+} from "../../components/ui/card";
+import StockChart from "./stockchart";
 
-interface StockData {
-  id: number;
-  ticker: string;
-  priceOpen: number;
-  priceHigh: number;
-  priceLow: number;
-  priceClose: number;
-  unit: string;
-  date: Date;
-  Volume: number;
+interface Dashboard1Props {
+  ticker?: string;
 }
 
-export async function Dashboard1() {
-  const session = await getServerAuthSession();
-  const initialStockData: StockData[] = await api.stock.getStockData({ count: 10 });
+export async function Dashboard1({ ticker = "AAPL" }: Dashboard1Props) {
+  const stockData = await api.stock.getStockData({ count: 30, ticker });
 
   return (
     <div className="flex min-h-screen w-full">
@@ -31,10 +22,10 @@ export async function Dashboard1() {
         <div className="grid pl-16 px-2 py-2 gap-8 grid-cols-8 grid-rows-12 h-full">
           <Card className="grid col-span-5 row-span-6">
             <CardHeader>
-              <CardTitle>Stock Information</CardTitle>
+              <CardTitle>{ticker} Stock</CardTitle>
             </CardHeader>
             <CardContent>
-              <Card1Client initialStockData={initialStockData} />
+              <StockChart data={stockData} />
             </CardContent>
           </Card>
           <Card className="grid col-span-3 row-span-12">2</Card>

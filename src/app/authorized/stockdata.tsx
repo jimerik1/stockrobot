@@ -17,11 +17,11 @@ interface StockData {
   Volume: number;
 }
 
-interface Card1ClientProps {
+interface StockDataProps {
   initialStockData: StockData[];
 }
 
-export default function Card1Client({ initialStockData }: Card1ClientProps) {
+export default function StockData({ initialStockData }: StockDataProps) {
   const [count, setCount] = useState<number>(10);
 
   const { data: stockData, refetch } = api.stock.getStockData.useQuery(

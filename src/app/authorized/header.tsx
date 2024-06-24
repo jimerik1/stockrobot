@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { HeaderSearchBar } from "./headersearchbar";
 
 import { getServerAuthSession } from "~/server/auth";
 
@@ -18,9 +19,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select"
+} from "../../components/ui/select"
 
-import { Button } from "../../../components/ui/button"
+import { Button } from "../../components/ui/button"
 
 import {
   DropdownMenu,
@@ -29,10 +30,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu"
-import { Input } from "../../../components/ui/input"
+} from "../../components/ui/dropdown-menu"
+import { Input } from "../../components/ui/input"
 
-import { Sheet, SheetContent, SheetTrigger } from "../../../components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet"
 
 export async function Header(){
   const session = await getServerAuthSession();
@@ -138,12 +139,9 @@ export async function Header(){
 
 <form className="ml-auto flex-1 sm:flex-initial">
     <div className="relative">
-      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-      <Input
-        type="search"
-        placeholder="Search products..."
-        className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-      />
+
+    <HeaderSearchBar />
+
     </div>
   </form>
 

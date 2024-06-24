@@ -11,7 +11,7 @@ import {
 } from "lucide-react"
 
 
-import { Button } from "../../../components/ui/button"
+import { Button } from "../../components/ui/button"
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card"
+} from "../../components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -27,16 +27,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu"
+} from "../../components/ui/dropdown-menu"
 
-import { Progress } from "../../../components/ui/progress"
+import { Progress } from "../../components/ui/progress"
 
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../../components/ui/tabs"
+} from "../../components/ui/tabs"
 
 
 export async function Dashboard2() {
