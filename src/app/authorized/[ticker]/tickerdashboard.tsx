@@ -1,7 +1,7 @@
 // components/TickerDashboard.tsx
 import { Dashboard1 } from '../dashboard1';
 import { Header } from '../header';
-import { Sidebar } from '../sidebar';
+import { SidebarWrapper } from '../sidebar-wrapper';
 
 interface TickerDashboardProps {
   ticker: string;
@@ -15,7 +15,7 @@ export const TickerDashboard: React.FC<TickerDashboardProps> = ({ ticker }) => {
   return (
     <div>
       <Header />
-      <Sidebar />
+      <SidebarWrapper />
       <Dashboard1 ticker={ticker} />
     </div>
   );

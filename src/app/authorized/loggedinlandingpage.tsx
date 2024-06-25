@@ -3,7 +3,7 @@ import { api } from "~/trpc/server";
 import { Dashboard1 } from "./dashboard1";
 import { Dashboard2 } from "./dashboard2";
 import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { SidebarWrapper } from "./sidebar-wrapper";
 import Old from "~/app/old";
 
 export default async function LoggedInLandingPage() {
@@ -13,7 +13,7 @@ export default async function LoggedInLandingPage() {
   return (
     <div>
       <Header />
-      <Sidebar />
+      <SidebarWrapper />
       <Dashboard1 />
       <Dashboard2 />
       <Old />

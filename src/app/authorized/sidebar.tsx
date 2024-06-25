@@ -1,133 +1,64 @@
-import Link from "next/link"
+// src/app/authorized/sidebar.tsx
 
+import Link from "next/link"
 import {
   ChevronLeft,
   ChevronRight,
-  Copy,
-  CreditCard,
-  File,
   Home,
-  LineChart,
-  ListFilter,
-  MoreVertical,
-  Package,
-  Package2,
-  PanelLeft,
-  Search,
-  Settings,
   ShoppingCart,
-  Truck,
+  Package,
   Users2,
+  LineChart,
+  Settings,
+  Package2,
 } from "lucide-react"
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider
-} from "../../components/ui/tooltip"
+type NavItemProps = {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+  isExpanded: boolean;
+}
 
-export function Sidebar(){
+function NavItem({ href, icon: Icon, label, isExpanded }: NavItemProps) {
+  return (
+    <Link
+      href={href}
+      className="flex h-9 w-full items-center gap-2 rounded-lg px-3 text-muted-foreground transition-colors hover:text-foreground overflow-hidden"
+    >
+      <Icon className="h-5 w-5 shrink-0" />
+      <span className={`transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+        {label}
+      </span>
+    </Link>
+  );
+}
 
-  return(
+type SidebarProps = {
+  isExpanded: boolean;
+}
 
-<aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-<nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
-  <Link
-    href="#"
-    className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-  >
-    <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
-    <span className="sr-only">Acme Inc</span>
-  </Link>
-  <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-      >
-        <Home className="h-5 w-5" />
-        <span className="sr-only">Dashboard</span>
-      </Link>
-    </TooltipTrigger>
-    <TooltipContent side="right">Dashboard</TooltipContent>
-  </Tooltip>
-  </TooltipProvider>
-  <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-      >
-        <ShoppingCart className="h-5 w-5" />
-        <span className="sr-only">Orders</span>
-      </Link>
-    </TooltipTrigger>
-    <TooltipContent side="right">Orders</TooltipContent>
-  </Tooltip>
-  </TooltipProvider>
-  <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-      >
-        <Package className="h-5 w-5" />
-        <span className="sr-only">Products</span>
-      </Link>
-    </TooltipTrigger>
-    <TooltipContent side="right">Products</TooltipContent>
-  </Tooltip>
-  </TooltipProvider>
-  <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-      >
-        <Users2 className="h-5 w-5" />
-        <span className="sr-only">Customers</span>
-      </Link>
-    </TooltipTrigger>
-    <TooltipContent side="right">Customers</TooltipContent>
-  </Tooltip>
-  </TooltipProvider>
-  <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-      >
-        <LineChart className="h-5 w-5" />
-        <span className="sr-only">Analytics</span>
-      </Link>
-    </TooltipTrigger>
-    <TooltipContent side="right">Analytics</TooltipContent>
-  </Tooltip>
-  </TooltipProvider>
-</nav>
-<nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
-<TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <Link
-        href="#"
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-      >
-        <Settings className="h-5 w-5" />
-        <span className="sr-only">Settings</span>
-      </Link>
-    </TooltipTrigger>
-    <TooltipContent side="right">Settings</TooltipContent>
-  </Tooltip>
-  </TooltipProvider>
-</nav>
-</aside>
-
+export function Sidebar({ isExpanded }: SidebarProps) {
+  return (
+    <aside 
+      className={`fixed inset-y-0 left-0 z-10 flex flex-col border-r bg-background transition-all duration-300 ease-in-out ${
+        isExpanded ? "w-64" : "w-16"
+      }`}
+    >
+            <nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
+        <Link href="/" className="group flex h-9 w-full items-center gap-2 rounded-lg px-3 text-lg font-semibold">
+          <Package2 className="h-6 w-6 shrink-0" />
+          {isExpanded && <span className="hidden sm:inline">Jims App</span>}
+        </Link>
+        <NavItem href="/" icon={Home} label="Dashboard" isExpanded={isExpanded} />
+        <NavItem href="/authorized/orders" icon={ShoppingCart} label="Orders" isExpanded={isExpanded} />
+        <NavItem href="/authorized/products" icon={Package} label="Products" isExpanded={isExpanded} />
+        <NavItem href="/authorized/customers" icon={Users2} label="Customers" isExpanded={isExpanded} />
+        <NavItem href="/authorized/analytics" icon={LineChart} label="Analytics" isExpanded={isExpanded} />
+      </nav>
+      <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
+        <NavItem href="/settings" icon={Settings} label="Settings" isExpanded={isExpanded} />
+      </nav>
+    </aside>
   );
 }

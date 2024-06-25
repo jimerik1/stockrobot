@@ -20,7 +20,7 @@ export default function StockChart({ data }: StockChartProps) {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height="100%">
       <LineChart data={formattedData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />

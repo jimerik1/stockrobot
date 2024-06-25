@@ -13,7 +13,7 @@ interface Dashboard1Props {
   ticker?: string;
 }
 
-export async function Dashboard1({ ticker = "AAPL" }: Dashboard1Props) {
+export async function Dashboard1({ ticker = "TSLA" }: Dashboard1Props) {
   const stockData = await api.stock.getStockData({ count: 30, ticker });
 
   return (
@@ -21,7 +21,7 @@ export async function Dashboard1({ ticker = "AAPL" }: Dashboard1Props) {
       <div className="flex min-h-screen w-full flex-col bg-muted/40 pb-20">
         <div className="grid pl-16 px-2 py-2 gap-8 grid-cols-8 grid-rows-12 h-full">
           <Card className="grid col-span-5 row-span-6">
-            <CardHeader>
+            <CardHeader >
               <CardTitle>{ticker} Stock</CardTitle>
             </CardHeader>
             <CardContent>
