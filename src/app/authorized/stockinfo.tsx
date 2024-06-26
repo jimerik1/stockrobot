@@ -29,7 +29,7 @@ export function StockInfo({ ticker }: StockInfoProps) {
         if (!response.ok) {
           throw new Error('Failed to fetch stock data');
         }
-        const data = await response.json();
+        const data = await response.json() as StockData;
         setStockData(data);
       } catch (err) {
         setError('Error fetching stock data');
@@ -39,7 +39,7 @@ export function StockInfo({ ticker }: StockInfoProps) {
       }
     };
 
-    fetchStockData();
+    void fetchStockData();
   }, [ticker]);
 
   if (isLoading) return <div>Loading...</div>;
@@ -52,11 +52,11 @@ export function StockInfo({ ticker }: StockInfoProps) {
         <CardTitle>{stockData.symbol} Stock Info</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>Current Price: ${stockData.currentPrice}</p>
-        <p>Day High: ${stockData.dayHigh}</p>
-        <p>Day Low: ${stockData.dayLow}</p>
-        <p>50 Day Average: ${stockData.fiftyDayAverage}</p>
-        <p>Volume: {stockData.volume}</p>
+        <p>Current Price: ${stockData.currentPrice.toFixed(2)}</p>
+        <p>Day High: ${stockData.dayHigh.toFixed(2)}</p>
+        <p>Day Low: ${stockData.dayLow.toFixed(2)}</p>
+        <p>50 Day Average: ${stockData.fiftyDayAverage.toFixed(2)}</p>
+        <p>Volume: {stockData.volume.toLocaleString()}</p>
       </CardContent>
     </Card>
   );
