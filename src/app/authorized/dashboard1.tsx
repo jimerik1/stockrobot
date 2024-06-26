@@ -20,7 +20,11 @@ interface Dashboard1Props {
 }
 
 interface HistoricalDataPoint {
+  open: number;
+  high: number;
+  low: number;
   close: number;
+  volume: number;
   date: string;
 }
 
@@ -28,12 +32,14 @@ interface StockData {
   historicalData: HistoricalDataPoint[];
 }
 
+
 export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
   const [period, setPeriod] = React.useState(initialPeriod);
   const [stockData, setStockData] = React.useState<StockData | null>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
+      console.log("API Key:", process.env.NEXT_PUBLIC_API_KEY);
       try {
         const response = await fetch(
           `https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${period}`,
@@ -72,7 +78,7 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
               <PeriodSelector currentPeriod={period} onPeriodChange={handlePeriodChange} />
             </CardHeader>
             <CardContent>
-              {stockData && <StockChart data={stockData.historicalData} />}
+              {stockData && <StockChart data={stockData.historicalData} title={`${ticker} Stock Prices`} />}
             </CardContent>
           </Card>
           <Card className="grid col-span-3 row-span-12">
