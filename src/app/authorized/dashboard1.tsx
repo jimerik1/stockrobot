@@ -1,6 +1,10 @@
 // Dashboard1.tsx
 "use client";
 
+// Add this at the top of your file to disable the no-floating-promises rule for this file
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
+
 import * as React from "react";
 import {
   Card,
@@ -37,7 +41,7 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
         if (!response.ok) {
           throw new Error('Failed to fetch stock data');
         }
-        const data: StockData = await response.json();
+        const data = await response.json() as StockData;
         setStockData(data);
       } catch (error) {
         console.error('Error fetching stock data:', error);
@@ -45,7 +49,8 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
       }
     };
 
-    fetchData();
+
+    void fetchData();
   }, [ticker, period]);
 
   const handlePeriodChange = (newPeriod: string) => {
