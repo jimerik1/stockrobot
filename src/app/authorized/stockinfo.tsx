@@ -1,3 +1,4 @@
+// StockInfo.tsx
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -7,13 +8,13 @@ interface StockInfoProps {
   ticker: string;
 }
 
-interface HistoricalDataPoint {
-  close: number;
-  date: string;
-}
-
 interface StockData {
-  historicalData: HistoricalDataPoint[];
+  currentPrice: number;
+  dayHigh: number;
+  dayLow: number;
+  fiftyDayAverage: number;
+  symbol: string;
+  volume: number;
 }
 
 export function StockInfo({ ticker }: StockInfoProps) {
@@ -25,7 +26,11 @@ export function StockInfo({ ticker }: StockInfoProps) {
     const fetchStockData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/5d`);
+        const response = await fetch(`https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/info`, {
+          headers: {
+            'X-API-Key': process.env.NEXT_PUBLIC_API_KEY ?? '',
+          }
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch stock data');
         }
@@ -44,30 +49,19 @@ export function StockInfo({ ticker }: StockInfoProps) {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-  if (!stockData || stockData.historicalData.length === 0) return <div>No data available</div>;
-
-  const latestData = stockData.historicalData[stockData.historicalData.length - 1];
+  if (!stockData) return <div>No data available</div>;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{ticker} Stock Info</CardTitle>
+        <CardTitle>{stockData.symbol} Stock Info</CardTitle>
       </CardHeader>
       <CardContent>
-        {latestData && (
-          <>
-            <p>Latest Close Price: ${latestData.close.toFixed(2)}</p>
-            <p>Latest Date: {new Date(latestData.date).toLocaleDateString()}</p>
-          </>
-        )}
-        <h3>Historical Data (Last 5 days):</h3>
-        <ul>
-          {stockData.historicalData.map((dataPoint, index) => (
-            <li key={index}>
-              Date: {new Date(dataPoint.date).toLocaleDateString()} - Close: ${dataPoint.close.toFixed(2)}
-            </li>
-          ))}
-        </ul>
+        <p>Current Price: ${stockData.currentPrice.toFixed(2)}</p>
+        <p>Day High: ${stockData.dayHigh.toFixed(2)}</p>
+        <p>Day Low: ${stockData.dayLow.toFixed(2)}</p>
+        <p>50 Day Average: ${stockData.fiftyDayAverage.toFixed(2)}</p>
+        <p>Volume: {stockData.volume.toLocaleString()}</p>
       </CardContent>
     </Card>
   );

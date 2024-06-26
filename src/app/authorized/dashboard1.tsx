@@ -1,9 +1,7 @@
 // Dashboard1.tsx
 "use client";
 
-// Add this at the top of your file to disable the no-floating-promises rule for this file
 /* eslint-disable @typescript-eslint/no-floating-promises */
-
 
 import * as React from "react";
 import {
@@ -37,7 +35,14 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${period}`);
+        const response = await fetch(
+          `https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${period}`,
+          {
+            headers: {
+              'X-API-Key': process.env.NEXT_PUBLIC_API_KEY ?? '',
+            }
+          }
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch stock data');
         }
@@ -48,7 +53,6 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
         setStockData(null);
       }
     };
-
 
     void fetchData();
   }, [ticker, period]);
