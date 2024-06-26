@@ -6,5 +6,11 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "api/app.py" },
     { "src": "/(.*)", "dest": "/$1" }
-  ]
+  ],
+  "functions": {
+    "api/**/*.py": {
+      "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"
+    }
+  }
+
 }
