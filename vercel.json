@@ -1,12 +1,16 @@
 {
-    "builds": [
-      { "src": "api/app.py", "use": "@vercel/python" },
-      { "src": "package.json", "use": "@vercel/next" }
-    ],
-    "routes": [
-      { "src": "/api/(.*)", "dest": "api/app.py" },
-      { "src": "/(.*)", "dest": "/$1" }
-    ]
+  "builds": [
+    { "src": "api/app.py", "use": "@vercel/python" },
+    { "src": "package.json", "use": "@vercel/next" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "api/app.py" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ],
+  "functions": {
+    "api/*.py": {
+      "maxDuration": 10,
+      "maxLambdaSize": "50mb"
+    }
   }
-  
-  
+}
