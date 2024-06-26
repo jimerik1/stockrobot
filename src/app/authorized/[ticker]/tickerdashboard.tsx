@@ -16,7 +16,7 @@ export const TickerDashboard: React.FC<TickerDashboardProps> = ({ ticker }) => {
     <div>
       <Header />
       <SidebarWrapper />
-      <Dashboard1 ticker={ticker} />
+      <Dashboard1 ticker={ticker} initialPeriod="1mo" />
     </div>
   );
 };
