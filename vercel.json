@@ -1,16 +1,17 @@
 {
   "builds": [
-    { "src": "api/app.py", "use": "@vercel/python" },
+    { 
+      "src": "api/app.py", 
+      "use": "@vercel/python",
+      "config": {
+        "buildCommand": "bash vercel-build.sh",
+        "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"
+      }
+    },
     { "src": "package.json", "use": "@vercel/next" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/app.py" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ],
-  "functions": {
-    "api/**/*.py": {
-      "excludeFiles": "{.next,*.cache,node_modules,public,app}/2**"
-    }
-  }
-
+    { "src": "^/api/(.*)$", "dest": "api/app.py" },
+    { "src": "^/(.*)$", "dest": "/$1" }
+  ]
 }
