@@ -1,4 +1,3 @@
-// Dashboard1.tsx
 import * as React from "react";
 import { api } from "~/trpc/server";
 import {
@@ -8,6 +7,7 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import StockChart from "./stockchart";
+import { StockInfo } from "./stockinfo";
 
 interface Dashboard1Props {
   ticker?: string;
@@ -28,7 +28,9 @@ export async function Dashboard1({ ticker = "TSLA" }: Dashboard1Props) {
               <StockChart data={stockData} />
             </CardContent>
           </Card>
-          <Card className="grid col-span-3 row-span-12">2</Card>
+          <Card className="grid col-span-3 row-span-12">
+            <StockInfo ticker={ticker} />
+          </Card>
           <Card className="grid col-span-2 row-span-6">3</Card>
           <Card className="grid col-span-3 row-span-6">4</Card>
         </div>
