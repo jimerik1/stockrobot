@@ -25,7 +25,7 @@ export function StockInfo({ ticker }: StockInfoProps) {
     const fetchStockData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`http://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com:8080/${ticker}`);
+        const response = await fetch(`https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}`);
         if (!response.ok) {
           throw new Error('Failed to fetch stock data');
         }
