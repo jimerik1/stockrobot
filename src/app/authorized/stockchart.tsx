@@ -11,7 +11,6 @@ interface HistoricalDataPoint {
 
 interface StockChartProps {
   data: HistoricalDataPoint[];
-  title: string; // Keep it if you need it for future use, otherwise you can remove it
 }
 
 const IntervalButton = styled.button<{ active: boolean }>`
@@ -28,7 +27,7 @@ const IntervalButton = styled.button<{ active: boolean }>`
   }
 `;
 
-export default function StockChart({ data, _title }: StockChartProps) { // Prefix unused variable with underscore
+export default function StockChart({ data }: StockChartProps) { // Prefix unused variable with underscore
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
   const [cursorY, setCursorY] = useState<number | null>(null);
   const [timeInterval, setTimeInterval] = useState('1M');
