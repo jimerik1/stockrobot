@@ -39,7 +39,7 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      console.log("API Key:", process.env.NEXT_PUBLIC_API_KEY);
+//      console.log("API Key:", process.env.NEXT_PUBLIC_API_KEY);
       try {
         const response = await fetch(
           `https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${period}`,

@@ -152,12 +152,13 @@ export async function Header(){
 </SelectTrigger>
 <SelectContent>
   <SelectGroup>
-    <SelectLabel>Fruits</SelectLabel>
-    <SelectItem value="apple">Apple</SelectItem>
-    <SelectItem value="banana">Banana</SelectItem>
-    <SelectItem value="blueberry">Blueberry</SelectItem>
-    <SelectItem value="grapes">Grapes</SelectItem>
-    <SelectItem value="pineapple">Pineapple</SelectItem>
+    <SelectLabel>Dashboards</SelectLabel>
+    <SelectItem value="trader">Trader</SelectItem>
+    <SelectItem value="analyst">Analyst</SelectItem>
+    <SelectItem value="indicators">Technical Indicators</SelectItem>
+    <SelectLabel className="bg-zinc-200">Dashboards</SelectLabel>
+    <SelectItem value="analyst">Analyst</SelectItem>
+    <SelectItem value="indicators">Technical Indicators</SelectItem>
   </SelectGroup>
 </SelectContent>
 </Select>
