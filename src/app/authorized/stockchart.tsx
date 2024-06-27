@@ -12,7 +12,6 @@ interface HistoricalDataPoint {
 
 interface StockChartProps {
   data: HistoricalDataPoint[];
-  title: string;
 }
 
 const IntervalButton = styled.button<{ active: boolean }>`
@@ -29,7 +28,7 @@ const IntervalButton = styled.button<{ active: boolean }>`
   }
 `;
 
-export default function StockChart({ data, title }: StockChartProps) {
+export default function StockChart({ data }: StockChartProps) {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
   const [cursorY, setCursorY] = useState<number | null>(null);
   const [timeInterval, setTimeInterval] = useState('1M');
@@ -78,17 +77,19 @@ export default function StockChart({ data, title }: StockChartProps) {
         ))}
       </div>
       <div onMouseMove={handleMouseMove} onMouseLeave={() => setCursorY(null)}>
-        <ResponsiveContainer width="100%" height={400}>
-          <AreaChart 
-            data={formattedData} 
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            onMouseMove={(state) => {
-              if (state && state.activePayload) {
-                setHoveredValue(state.activePayload[0].value);
-              }
-            }}
-            onMouseLeave={() => setHoveredValue(null)}
-          >
+      <ResponsiveContainer width="100%" height={400}>
+        <AreaChart 
+          data={formattedData} 
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          onMouseMove={(state) => {
+            // Use optional chaining and type assertion
+            const value = state?.activePayload?.[0]?.value;
+            if (typeof value === 'number') {
+              setHoveredValue(value);
+            }
+          }}
+          onMouseLeave={() => setHoveredValue(null)}
+        >
             <defs>
               <linearGradient id="colorClose" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
