@@ -78,7 +78,7 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
               <PeriodSelector currentPeriod={period} onPeriodChange={handlePeriodChange} />
             </CardHeader>
             <CardContent>
-              {stockData && <StockChart data={stockData.historicalData} title={`${ticker} Stock Prices`} />}
+              {stockData && <StockChart data={stockData.historicalData} />}
             </CardContent>
           </Card>
           <Card className="grid col-span-3 row-span-12">
