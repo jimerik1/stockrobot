@@ -12,7 +12,7 @@ export function HeaderSearchBar() {
   const [suggestions, setSuggestions] = useState<{ ticker: string }[]>([]);
   const router = useRouter();
 
-  const searchTickers = api.stock.searchTickers.useQuery({ query }, {
+  const searchTickers = api.ticker.searchTickers.useQuery({ query }, {
     enabled: query.length > 0,
   });
 

@@ -82,3 +82,14 @@ model StockData {
 
     @@index([ticker, date])
 }
+
+model Ticker {
+  id           Int      @id @default(autoincrement())
+  ticker       String   @unique
+  companyName  String
+  industry     String
+  exchange     String?
+  country      String?
+
+  @@index([ticker])
+}
