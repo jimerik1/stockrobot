@@ -1,4 +1,3 @@
-// stockchart.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -12,7 +11,7 @@ interface HistoricalDataPoint {
 
 interface StockChartProps {
   data: HistoricalDataPoint[];
-  title: string;
+  title: string; // Keep it if you need it for future use, otherwise you can remove it
 }
 
 const IntervalButton = styled.button<{ active: boolean }>`
@@ -29,7 +28,7 @@ const IntervalButton = styled.button<{ active: boolean }>`
   }
 `;
 
-export default function StockChart({ data, title }: StockChartProps) {
+export default function StockChart({ data, _title }: StockChartProps) { // Prefix unused variable with underscore
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
   const [cursorY, setCursorY] = useState<number | null>(null);
   const [timeInterval, setTimeInterval] = useState('1M');
@@ -82,8 +81,8 @@ export default function StockChart({ data, title }: StockChartProps) {
           <AreaChart 
             data={formattedData} 
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            onMouseMove={(state) => {
-              if (state && state.activePayload) {
+            onMouseMove={(state: any) => {
+              if (state?.activePayload?.[0]?.value !== undefined) {
                 setHoveredValue(state.activePayload[0].value);
               }
             }}
