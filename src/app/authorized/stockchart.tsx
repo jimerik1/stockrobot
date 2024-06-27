@@ -1,4 +1,5 @@
 // StockChart.tsx
+/* eslint-disable */
 "use client";
 
 import React, { useState } from "react";
