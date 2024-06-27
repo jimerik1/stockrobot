@@ -4,7 +4,6 @@
 import React, { useState } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import styled from 'styled-components';
-import { CurveType } from "recharts/types/shape/Curve";
 
 interface HistoricalDataPoint {
   close: number;
@@ -13,6 +12,7 @@ interface HistoricalDataPoint {
 
 interface StockChartProps {
   data: HistoricalDataPoint[];
+  title: string;
 }
 
 const IntervalButton = styled.button<{ active: boolean }>`
@@ -29,7 +29,7 @@ const IntervalButton = styled.button<{ active: boolean }>`
   }
 `;
 
-export default function StockChart({ data }: StockChartProps) {
+export default function StockChart({ data, title }: StockChartProps) {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
   const [cursorY, setCursorY] = useState<number | null>(null);
   const [timeInterval, setTimeInterval] = useState('1M');
@@ -78,21 +78,17 @@ export default function StockChart({ data }: StockChartProps) {
         ))}
       </div>
       <div onMouseMove={handleMouseMove} onMouseLeave={() => setCursorY(null)}>
-      <ResponsiveContainer width="100%" height={400}>
-        <AreaChart 
-          data={formattedData} 
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          onMouseMove={(state: any) => {
-            if (state.isTooltipActive) {
-              const activeItem = state.activePayload && state.activePayload[0];
-              if (activeItem && typeof activeItem.value === 'number') {
-                setHoveredValue(activeItem.value);
+        <ResponsiveContainer width="100%" height={400}>
+          <AreaChart 
+            data={formattedData} 
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            onMouseMove={(state) => {
+              if (state && state.activePayload) {
+                setHoveredValue(state.activePayload[0].value);
               }
-            }
-          }}
-          onMouseLeave={() => setHoveredValue(null)}
-        >
-
+            }}
+            onMouseLeave={() => setHoveredValue(null)}
+          >
             <defs>
               <linearGradient id="colorClose" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
@@ -117,14 +113,14 @@ export default function StockChart({ data }: StockChartProps) {
               formatter={(value) => [`$${Number(value).toFixed(2)}`, "Close"]}
               labelFormatter={(label) => `Date: ${label}`}
             />
-          <Area 
-            type={"monotone" as CurveType}
-            dataKey="close" 
-            stroke="#82ca9d" 
-            strokeWidth={2}
-            fillOpacity={1} 
-            fill="url(#colorClose)" 
-          />
+            <Area 
+              type="monotone" 
+              dataKey="close" 
+              stroke="#82ca9d" 
+              strokeWidth={2}
+              fillOpacity={1} 
+              fill="url(#colorClose)" 
+            />
             {hoveredValue !== null && (
               <ReferenceLine y={hoveredValue} stroke="#8884d8" strokeDasharray="3 3" />
             )}
