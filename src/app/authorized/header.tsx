@@ -139,29 +139,24 @@ export async function Header(){
 
 <form className="ml-auto flex-1 sm:flex-initial">
     <div className="relative">
-
-    <HeaderSearchBar />
-
-    </div>
-  </form>
-
-
-  <Select>
+    <Select>
 <SelectTrigger className="w-[180px]">
   <SelectValue placeholder="Select Dashboard" />
 </SelectTrigger>
 <SelectContent>
   <SelectGroup>
-    <SelectLabel>Dashboards</SelectLabel>
     <SelectItem value="trader">Trader</SelectItem>
-    <SelectItem value="analyst">Analyst</SelectItem>
-    <SelectItem value="indicators">Technical Indicators</SelectItem>
-    <SelectLabel className="bg-zinc-200">Dashboards</SelectLabel>
     <SelectItem value="analyst">Analyst</SelectItem>
     <SelectItem value="indicators">Technical Indicators</SelectItem>
   </SelectGroup>
 </SelectContent>
 </Select>
+
+    </div>
+  </form>
+
+  <HeaderSearchBar />
+
   
   <div>Jim Strand</div>
   <DropdownMenu>

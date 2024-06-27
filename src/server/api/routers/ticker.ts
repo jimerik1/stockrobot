@@ -8,15 +8,26 @@ export const tickerRouter = createTRPCRouter({
   })).query(async ({ input, ctx }) => {
     return ctx.db.ticker.findMany({
       where: {
-        ticker: {
-          contains: input.query,
-          mode: "insensitive",
-        },
+        OR: [
+          {
+            ticker: {
+              contains: input.query,
+              mode: "insensitive",
+            },
+          },
+          {
+            companyName: {
+              contains: input.query,
+              mode: "insensitive",
+            },
+          },
+        ],
       },
       select: {
         ticker: true,
+        companyName: true,
       },
-      distinct: ["ticker"],
+      distinct: ["ticker", "companyName"],
     });
   }),
 });
