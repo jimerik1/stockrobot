@@ -12,7 +12,7 @@ import {
 } from "../../components/ui/card";
 import StockChart from "./stockchart";
 import { StockInfo } from "./stockinfo";
-import { PeriodSelector } from "./periodselector";
+import { TimeIntervalSelector } from "./timeintervalselector";
 
 interface Dashboard1Props {
   ticker: string;
@@ -32,18 +32,15 @@ interface StockData {
   historicalData: HistoricalDataPoint[];
 }
 
-
 export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
-  const [period, setPeriod] = React.useState(initialPeriod);
+  const [timeInterval, setTimeInterval] = React.useState('1d');
   const [stockData, setStockData] = React.useState<StockData | null>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
-//      console.log("API Key:", process.env.NEXT_PUBLIC_API_KEY);
       try {
         const response = await fetch(
-          `https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${period}`,
-  
+          `https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${timeInterval}`,
           {
             headers: {
               'X-API-Key': process.env.NEXT_PUBLIC_API_KEY ?? '',
@@ -62,10 +59,10 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
     };
 
     void fetchData();
-  }, [ticker, period]);
+  }, [ticker, timeInterval]);
 
-  const handlePeriodChange = (newPeriod: string) => {
-    setPeriod(newPeriod);
+  const handleTimeIntervalChange = (newInterval: string) => {
+    setTimeInterval(newInterval);
   };
 
   return (
@@ -75,7 +72,9 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
           <Card className="grid col-span-5 row-span-6">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>{ticker} Stock</CardTitle>
-              <PeriodSelector currentPeriod={period} onPeriodChange={handlePeriodChange} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <TimeIntervalSelector currentInterval={timeInterval} onIntervalChange={handleTimeIntervalChange} />
+              </div>
             </CardHeader>
             <CardContent>
               {stockData && <StockChart data={stockData.historicalData} />}
