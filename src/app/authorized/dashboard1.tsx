@@ -11,8 +11,13 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import StockChart from "./stockchart";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { StockInfo } from "./stockinfo";
 import { TimeIntervalSelector } from "./timeintervalselector";
+import IncomeStatement from "./statementcard/incomestatement";
+import BalanceSheet from "./statementcard/balancesheet";
+import CashFlowStatement from "./statementcard/cashflowstatement";
+import Owners from "./statementcard/owners";
 
 interface Dashboard1Props {
   ticker: string;
@@ -65,11 +70,13 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
     setTimeInterval(newInterval);
   };
 
+  const cardStyle = { backgroundColor: 'transparent', border: 'none', borderRadius: 0 };
+
   return (
     <div className="flex min-h-screen w-full">
       <div className="flex min-h-screen w-full flex-col bg-muted/40 pb-20">
         <div className="grid pl-16 px-2 py-2 gap-8 grid-cols-8 grid-rows-12 h-full">
-          <Card className="grid col-span-5 row-span-6">
+          <Card className="grid col-span-6 row-span-6 no-radius" style={cardStyle}>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>{ticker} Stock</CardTitle>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -77,14 +84,37 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
               </div>
             </CardHeader>
             <CardContent>
-              {stockData && <StockChart data={stockData.historicalData} />}
+              {stockData && <StockChart data={stockData.historicalData} timeInterval={timeInterval} />}
             </CardContent>
           </Card>
-          <Card className="grid col-span-3 row-span-12">
+          <Card className="grid col-span-2 row-span-12 no-radius" style={cardStyle}>
+            General Info
+            Hello
             <StockInfo ticker={ticker} />
           </Card>
-          <Card className="grid col-span-2 row-span-6">3</Card>
-          <Card className="grid col-span-3 row-span-6">4</Card>
+          <Card className="grid col-span-2 row-span-6 no-radius" style={cardStyle}>3</Card>
+          <Card className="grid col-span-4 row-span-6 no-radius" style={cardStyle}>
+            <Tabs defaultValue="incomestatement" className="w-full h-full">
+              <TabsList>
+                <TabsTrigger value="incomestatement">Income Statement</TabsTrigger>
+                <TabsTrigger value="balancesheet">Balance Sheet</TabsTrigger>
+                <TabsTrigger value="cashflowstatement">Cash Flow Statement</TabsTrigger>
+                <TabsTrigger value="owners">Owners</TabsTrigger>
+              </TabsList>
+              <TabsContent value="incomestatement">
+                <IncomeStatement ticker={ticker} />
+              </TabsContent>
+              <TabsContent value="balancesheet">
+                <BalanceSheet ticker={ticker} />
+              </TabsContent>
+              <TabsContent value="cashflowstatement">
+                <CashFlowStatement ticker={ticker} />
+              </TabsContent>
+              <TabsContent value="owners">
+                <Owners ticker={ticker} />
+              </TabsContent>
+            </Tabs>
+          </Card>
         </div>
       </div>
     </div>
