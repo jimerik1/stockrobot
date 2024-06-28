@@ -5,13 +5,17 @@ interface IncomeStatementProps {
   ticker: string;
 }
 
-interface FinancialsData {
-  incomeStatement: Record<string, any>;
-  quarterlyIncomeStatement: Record<string, any>;
-  balanceSheet: Record<string, any>;
-  quarterlyBalanceSheet: Record<string, any>;
-  cashFlow: Record<string, any>;
-  quarterlyCashFlow: Record<string, any>;
+interface FinancialData {
+  [key: string]: number | string | null;
+}
+
+interface FinancialsResponse {
+  incomeStatement: FinancialData[];
+  quarterlyIncomeStatement: FinancialData[];
+  balanceSheet: FinancialData[];
+  quarterlyBalanceSheet: FinancialData[];
+  cashFlow: FinancialData[];
+  quarterlyCashFlow: FinancialData[];
 }
 
 const IncomeStatement: React.FC<IncomeStatementProps> = ({ ticker }) => {
@@ -29,7 +33,7 @@ const IncomeStatement: React.FC<IncomeStatementProps> = ({ ticker }) => {
     return <div>Error loading income statement data: {error.message}</div>;
   }
 
-  const incomeStatement = (data as FinancialsData)?.incomeStatement;
+  const incomeStatement = data?.incomeStatement ?? [];
 
   return (
     <div>
