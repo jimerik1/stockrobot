@@ -1,11 +1,32 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
+type Ticker = {
+  ticker: string;
+  companyName: string;
+};
+
+type FinancialData = {
+  // Define the structure of the financial data here based on the API response
+  // Example:
+  revenue: number;
+  profit: number;
+};
+
+type HoldersData = {
+  // Define the structure of the holders data here based on the API response
+  // Example:
+  holders: Array<{
+    name: string;
+    shares: number;
+  }>;
+};
+
 export const tickerRouter = createTRPCRouter({
   searchTickers: protectedProcedure.input(z.object({
     query: z.string(),
   })).query(async ({ input, ctx }) => {
-    return ctx.db.ticker.findMany({
+    const tickers: Ticker[] = await ctx.db.ticker.findMany({
       where: {
         OR: [
           {
@@ -28,6 +49,8 @@ export const tickerRouter = createTRPCRouter({
       },
       distinct: ["ticker", "companyName"],
     });
+
+    return tickers;
   }),
 
   getFinancials: protectedProcedure.input(z.object({
@@ -47,7 +70,7 @@ export const tickerRouter = createTRPCRouter({
         throw new Error(`Failed to fetch financial data: ${errorText}`);
       }
 
-      const data = await response.json();
+      const data: FinancialData = await response.json();
       console.log('Financial data:', data);
       return data;
     } catch (error) {
@@ -73,7 +96,7 @@ export const tickerRouter = createTRPCRouter({
         throw new Error(`Failed to fetch holders data: ${errorText}`);
       }
 
-      const data = await response.json();
+      const data: HoldersData = await response.json();
       console.log('Holders data:', data);
       return data;
     } catch (error) {
