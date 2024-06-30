@@ -14,10 +14,7 @@ import StockChart from "./stockchart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { StockInfo } from "./stockinfo";
 import { TimeIntervalSelector } from "./timeintervalselector";
-import IncomeStatement from "./statementcard/incomestatement";
-import BalanceSheet from "./statementcard/balancesheet";
-import CashFlowStatement from "./statementcard/cashflowstatement";
-import Owners from "./statementcard/owners";
+
 
 interface Dashboard1Props {
   ticker: string;
@@ -102,16 +99,12 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
                 <TabsTrigger value="owners">Owners</TabsTrigger>
               </TabsList>
               <TabsContent value="incomestatement">
-                <IncomeStatement ticker={ticker} />
               </TabsContent>
-              <TabsContent value="balancesheet">
-                <BalanceSheet ticker={ticker} />
+              <TabsContent value="balancesheet">3
               </TabsContent>
-              <TabsContent value="cashflowstatement">
-                <CashFlowStatement ticker={ticker} />
+              <TabsContent value="cashflowstatement">2
               </TabsContent>
-              <TabsContent value="owners">
-                <Owners ticker={ticker} />
+              <TabsContent value="owners">1
               </TabsContent>
             </Tabs>
           </Card>

@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { api } from '~/trpc/react';
 
 interface StockInfoProps {
   ticker: string;
@@ -17,10 +18,19 @@ interface StockData {
   volume: number;
 }
 
+interface StatusData {
+  Status: string;
+}
+
 export function StockInfo({ ticker }: StockInfoProps) {
   const [stockData, setStockData] = useState<StockData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [statusdata, setStatusData] = useState<StatusData | null>(null);
+  const [statusisLoading, setStatusIsLoading] = useState(true);
+  const [statuserror, setStatusError] = useState<string | null>(null);
+
+
 
   useEffect(() => {
     const fetchStockData = async () => {
@@ -52,6 +62,7 @@ export function StockInfo({ ticker }: StockInfoProps) {
   if (!stockData) return <div>No data available</div>;
 
   return (
+    <div>
     <Card>
       <CardHeader>
         <CardTitle>{stockData.symbol} Stock Info</CardTitle>
@@ -64,5 +75,14 @@ export function StockInfo({ ticker }: StockInfoProps) {
         <p>Volume: {stockData.volume.toLocaleString()}</p>
       </CardContent>
     </Card>
+
+    <Card>
+      <CardHeader>
+        <CardTitle>{stockData.symbol} Stock Info TRPC</CardTitle>
+      </CardHeader>
+      <CardContent>hello 
+      </CardContent>
+    </Card>
+    </div>
   );
 }
