@@ -1,7 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
-type statusmessage = {
+type StatusMessage = {
   status: string;
 };
 
@@ -19,7 +19,7 @@ export const getStockInfoRouter = createTRPCRouter({
       throw new Error('Failed to fetch stock data');
     }
 
-    const data: statusmessage = await response.json();
+    const data: StatusMessage = await response.json() as StatusMessage;
     console.log("Endpoint triggered");
     console.log(data);
     return data;
