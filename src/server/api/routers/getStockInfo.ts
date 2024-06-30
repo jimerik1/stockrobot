@@ -8,7 +8,7 @@ type statusmessage = {
 export const getStockInfoRouter = createTRPCRouter({
   getStockInfo: protectedProcedure.input(z.object({
     ticker: z.string(),
-  })).query(async ({ input, ctx }) => {
+  })).query(async ({ input }) => {
     const response = await fetch(`https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${input.ticker}/status`, {
       headers: {
         'X-API-Key': process.env.NEXT_PUBLIC_API_KEY ?? '',
