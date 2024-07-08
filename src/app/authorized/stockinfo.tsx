@@ -36,7 +36,7 @@ export function StockInfo({ ticker }: StockInfoProps) {
     const fetchStockData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/info`, {
+        const response = await fetch(`https://jesi.no/${ticker}/info`, {
           headers: {
             'X-API-Key': process.env.NEXT_PUBLIC_API_KEY ?? '',
           }

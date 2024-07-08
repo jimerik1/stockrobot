@@ -42,7 +42,7 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://ec2-16-170-98-89.eu-north-1.compute.amazonaws.com/${ticker}/history/${timeInterval}`,
+          `https://jesi.no/${ticker}/history/${timeInterval}`,
           {
             headers: {
               'X-API-Key': process.env.NEXT_PUBLIC_API_KEY ?? '',
@@ -108,7 +108,7 @@ export function Dashboard1({ ticker, initialPeriod }: Dashboard1Props) {
               </TabsContent>
             </Tabs>
           </Card>
-        </div>
+        </div> 
       </div>
     </div>
   );
