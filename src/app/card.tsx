@@ -12,7 +12,7 @@ const cardTypes: CardType[] = [
   // Add more card types as needed
 ];
 
-const defaultCardType: CardType = cardTypes[0] as CardType;
+const defaultCardType: CardType = cardTypes[0] ?? { id: 'default', name: 'Default Chart' };
 
 interface CardProps {
   id: string;
