@@ -50,7 +50,8 @@ export function Sidebar({ isExpanded }: SidebarProps) {
           <Package2 className="h-6 w-6 shrink-0" />
           {isExpanded && <span className="hidden sm:inline">Jims App</span>}
         </Link>
-        <NavItem href="/" icon={Home} label="Dashboard" isExpanded={isExpanded} />
+        <NavItem href="/authorized/dashboard1" icon={Home} label="Dashboard 1" isExpanded={isExpanded} />
+        <NavItem href="/authorized/dashboard2" icon={ShoppingCart} label="Dashboard 2" isExpanded={isExpanded} />
         <NavItem href="/authorized/orders" icon={ShoppingCart} label="Orders" isExpanded={isExpanded} />
         <NavItem href="/authorized/products" icon={Package} label="Products" isExpanded={isExpanded} />
         <NavItem href="/authorized/customers" icon={Users2} label="Customers" isExpanded={isExpanded} />

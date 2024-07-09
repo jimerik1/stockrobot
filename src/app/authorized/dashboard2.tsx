@@ -1,164 +1,57 @@
-import * as React from "react"
-import { getServerAuthSession } from "~/server/auth";
-import { Sidebar } from "./sidebar";
-import { Header } from "./header";
+"use client";
 
-import {
+import React, { useEffect, useRef } from 'react';
+import { createChart, ColorType } from 'lightweight-charts';
 
-  File,
-  ListFilter,
+export function Dashboard2() {
+  const chartContainerRef = useRef<HTMLDivElement>(null);
 
-} from "lucide-react"
+  useEffect(() => {
+    if (chartContainerRef.current) {
+      const chart = createChart(chartContainerRef.current, {
+        width: 600,
+        height: 300,
+        layout: {
+          background: { type: ColorType.Solid, color: 'white' },
+          textColor: 'black',
+        },
+      });
 
+      const candlestickSeries = chart.addCandlestickSeries({
+        upColor: '#26a69a',    // Green color for increasing prices
+        downColor: '#ef5350',  // Red color for decreasing prices
+        borderVisible: false,
+        wickUpColor: '#26a69a',    // Green color for the wick on up candles
+        wickDownColor: '#ef5350',  // Red color for the wick on down candles
+      });
 
-import { Button } from "../../components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu"
+      const data = [
+        { time: '2023-05-01', open: 150.00, high: 155.00, low: 149.00, close: 153.50 },
+        { time: '2023-05-02', open: 153.50, high: 157.00, low: 152.00, close: 156.00 },
+        { time: '2023-05-03', open: 156.00, high: 158.50, low: 154.50, close: 157.50 },
+        { time: '2023-05-04', open: 157.50, high: 160.00, low: 146.00, close: 149.00 },
+        { time: '2023-05-05', open: 159.00, high: 162.00, low: 158.00, close: 161.50 },
+        // Add more data points as needed
+      ];
 
-import { Progress } from "../../components/ui/progress"
+      candlestickSeries.setData(data);
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../components/ui/tabs"
+      chart.timeScale().fitContent();
 
-
-export async function Dashboard2() {
-  const session = await getServerAuthSession();
+      return () => {
+        chart.remove();
+      };
+    }
+  }, []);
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
-
-    
-  <main>
-  <div className="flex min-h-screen w-full flex-col bg-muted/40">
-
-   
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-   
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-              <Card
-                className="sm:col-span-2" x-chunk="dashboard-05-chunk-0"
-              >
-                <CardHeader className="pb-3">
-                  <CardTitle>Your Orders</CardTitle>
-                  <CardDescription className="max-w-lg text-balance leading-relaxed">
-                    Introducing Our Dynamic Orders Dashboard for Seamless
-                    Management and Insightful Analysis.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter>
-                  <Button>Create New Order</Button>
-                </CardFooter>
-              </Card>
-              <Card x-chunk="dashboard-05-chunk-1">
-                <CardHeader className="pb-2">
-                  <CardDescription>This Week</CardDescription>
-                  <CardTitle className="text-4xl">$1,329</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xs text-muted-foreground">
-                    +25% from last week
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Progress value={25} aria-label="25% increase" />
-                </CardFooter>
-              </Card>
-              <Card x-chunk="dashboard-05-chunk-2">
-                <CardHeader className="pb-2">
-                  <CardDescription>This Month</CardDescription>
-                  <CardTitle className="text-4xl">$5,329</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xs text-muted-foreground">
-                    +10% from last month
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Progress value={12} aria-label="12% increase" />
-                </CardFooter>
-              </Card>
-            </div>
-            <Tabs defaultValue="week">
-              <div className="flex items-center">
-                <TabsList>
-                  <TabsTrigger value="week">Week</TabsTrigger>
-                  <TabsTrigger value="month">Month</TabsTrigger>
-                  <TabsTrigger value="year">Year</TabsTrigger>
-                </TabsList>
-                <div className="ml-auto flex items-center gap-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 gap-1 text-sm"
-                      >
-                        <ListFilter className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only">Filter</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuCheckboxItem checked>
-                        Fulfilled
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem>
-                        Declined
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem>
-                        Refunded
-                      </DropdownMenuCheckboxItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="h-7 gap-1 text-sm"
-                  >
-                    <File className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only">Export</span>
-                  </Button>
-                </div>
-              </div>
-              <TabsContent value="week">
-                   {/* <OrderList /> */}
-              </TabsContent>
-              <TabsContent value="month">
-                   {/* <OrderList /> */}
-              </TabsContent>
-            </Tabs>
-          </div>
-          <div>
-           {/* <OrderConfirmationCard /> */}
-          </div>
-        </main>
+        <h1 className="text-2xl font-bold">Dashboard 2</h1>
+        <div className="p-4">
+          <div ref={chartContainerRef} />
+        </div>
       </div>
     </div>
-
-</main>
-
-  </div>
-
-  )
+  );
 }
