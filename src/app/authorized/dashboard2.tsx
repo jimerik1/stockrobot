@@ -177,7 +177,7 @@ export function Dashboard2() {
  
     <div className="flex h-screen w-full overflow-hidden">
       <div className="flex flex-col w-full bg-muted/40">
-        <div className="grid pl-16 grid-cols-8 grid-rows-6 gap-4 p-4 h-full">
+        <div className="grid pl-16 grid-cols-8 grid-rows-6 gap-1 h-full">
 
 
           <Card className="col-span-6 row-span-2 flex flex-col">
