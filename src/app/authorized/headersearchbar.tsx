@@ -1,13 +1,11 @@
-// headersearchBar.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 
-// Define the type for suggestions
 interface Suggestion {
   ticker: string;
   companyName: string;
@@ -17,6 +15,16 @@ export function HeaderSearchBar() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  let currentDashboard: string | null = searchParams.get("dashboard");
+
+  // Extract dashboard from the pathname if it's not in the search parameters
+  if (!currentDashboard) {
+    const pathSegments = pathname.split('/');
+    currentDashboard = pathSegments[pathSegments.length - 1] || "dashboard1"; // Default to dashboard1 if undefined
+  }
 
   const searchTickers = api.ticker.searchTickers.useQuery({ query }, {
     enabled: query.length > 0,
@@ -31,8 +39,7 @@ export function HeaderSearchBar() {
   }, [searchTickers.data, query.length]);
 
   const handleSearch = (ticker: string) => {
-    console.log(`Navigating to /authorized/${ticker}`);
-    router.push(`/authorized/${ticker}`);
+    router.push(`/authorized/${ticker}?dashboard=${currentDashboard}`);
   };
 
   return (

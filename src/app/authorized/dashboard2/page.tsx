@@ -9,7 +9,7 @@ export default function Dashboard1Page() {;
     <div>
       <Header />
       <SidebarWrapper />
-      <Dashboard2 />
+      <Dashboard2 ticker="AAPL" initialPeriod="1mo" />
     </div>
   );
 };

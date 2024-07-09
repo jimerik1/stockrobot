@@ -1,13 +1,16 @@
-// components/TickerDashboard.tsx
+// components/tickerdashboard.tsx
+
 import { Dashboard1 } from '../dashboard1';
+import { Dashboard2 } from '../dashboard2';
 import { Header } from '../header';
 import { SidebarWrapper } from '../sidebar-wrapper';
 
 interface TickerDashboardProps {
   ticker: string;
+  currentDashboard: string;
 }
 
-export const TickerDashboard: React.FC<TickerDashboardProps> = ({ ticker }) => {
+export const TickerDashboard: React.FC<TickerDashboardProps> = ({ ticker, currentDashboard }) => {
   console.log('Ticker:', ticker);
 
   if (!ticker) return <div>Loading...</div>;
@@ -16,7 +19,11 @@ export const TickerDashboard: React.FC<TickerDashboardProps> = ({ ticker }) => {
     <div>
       <Header />
       <SidebarWrapper />
-      <Dashboard1 ticker={ticker} initialPeriod="1mo" />
+      {currentDashboard === "dashboard1" ? (
+        <Dashboard1 ticker={ticker} initialPeriod="1mo" />
+      ) : (
+        <Dashboard2 ticker={ticker} initialPeriod="1mo" />
+      )}
     </div>
   );
 };
