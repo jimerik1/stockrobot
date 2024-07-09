@@ -15,7 +15,7 @@ const Page = ({ params, searchParams }: PageProps) => {
   const { ticker } = params;
   const { dashboard } = searchParams;
 
-  return <TickerDashboard ticker={ticker} currentDashboard={dashboard || "dashboard1"} />;
+  return <TickerDashboard ticker={ticker} currentDashboard={dashboard ?? "dashboard1"} />;
 };
 
 export default Page;

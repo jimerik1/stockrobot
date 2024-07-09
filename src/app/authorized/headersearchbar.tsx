@@ -23,7 +23,7 @@ export function HeaderSearchBar() {
   // Extract dashboard from the pathname if it's not in the search parameters
   if (!currentDashboard) {
     const pathSegments = pathname.split('/');
-    currentDashboard = pathSegments[pathSegments.length - 1] || "dashboard1"; // Default to dashboard1 if undefined
+    currentDashboard = pathSegments[pathSegments.length - 1] ?? "dashboard1"; // Default to dashboard1 if undefined
   }
 
   const searchTickers = api.ticker.searchTickers.useQuery({ query }, {
