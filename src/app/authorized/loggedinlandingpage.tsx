@@ -21,7 +21,7 @@ export default async function LoggedInLandingPage() {
       <Header />
       <SidebarWrapper />
       <Dashboard1 ticker={ticker} initialPeriod={initialPeriod} />
-      <Dashboard2 />
+      <Dashboard1 ticker={ticker} initialPeriod={initialPeriod} />
       <Old />
     </div>
   );
