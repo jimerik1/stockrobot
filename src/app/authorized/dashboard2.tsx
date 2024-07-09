@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter} from "../../components/ui/card";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Label, Pie, PieChart } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Label, Pie, PieChart, Sector } from "recharts"
 import { TrendingUp } from "lucide-react"
 import {
   ChartConfig,
