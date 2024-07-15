@@ -4,7 +4,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { Header } from "./header/header";
 import { SidebarWrapper } from "./sidebar/sidebar-wrapper";
-import Overview from "./overviewanalyst/page";
+import OverviewAnalyst from "./overviewanalyst/page";
 
 export default async function LoggedInLandingPage() {
   const _hello = await api.post.hello({ text: "from tRPC" });
@@ -18,7 +18,7 @@ export default async function LoggedInLandingPage() {
     <div> 
       <Header />
       <SidebarWrapper />
-      <Overview />
+      <OverviewAnalyst />
     </div>
   );
 }
