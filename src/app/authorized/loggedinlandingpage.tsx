@@ -2,11 +2,9 @@
 
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
-import { Dashboard1 } from "./dashboard1";
-import { Dashboard2 } from "./dashboard2";
-import { Header } from "./header";
-import { SidebarWrapper } from "./sidebar-wrapper";
-import Old from "~/app/old";
+import { Header } from "./header/header";
+import { SidebarWrapper } from "./sidebar/sidebar-wrapper";
+import Overview from "./overviewanalyst/page";
 
 export default async function LoggedInLandingPage() {
   const _hello = await api.post.hello({ text: "from tRPC" });
@@ -17,11 +15,10 @@ export default async function LoggedInLandingPage() {
   const initialPeriod = "1mo";
 
   return (
-    <div>
+    <div> 
       <Header />
       <SidebarWrapper />
-      <Dashboard1 ticker={ticker} initialPeriod={initialPeriod} />
-      <Old />
+      <Overview />
     </div>
   );
 }

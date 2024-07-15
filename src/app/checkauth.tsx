@@ -32,7 +32,7 @@ async function LoggedInUser() {
   );
 }
 
-export default async function IntroPage() {
+export default async function CheckAuth() {
   const message = await api.post.hello({ text: "from tRPC" });
   const session = await getServerAuthSession();
 

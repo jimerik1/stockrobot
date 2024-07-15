@@ -1,6 +1,6 @@
 import { Dashboard2 } from '../dashboard2';
-import { Header } from '../header';
-import { SidebarWrapper } from '../sidebar-wrapper';
+import { Header } from '../../header/header';
+import { SidebarWrapper } from '../../sidebar/sidebar-wrapper';
 
 
 export default function Dashboard1Page() {;

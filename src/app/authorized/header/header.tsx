@@ -3,10 +3,10 @@ import Link from "next/link";
 import { HeaderSearchBar } from "./headersearchbar";
 import { getServerAuthSession } from "~/server/auth";
 import { CircleUser, Menu, Package2 } from "lucide-react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
-import { Button } from "../../components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
+import { Button } from "../../../components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../../components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "../../../components/ui/sheet";
 
 export async function Header() {
   const session = await getServerAuthSession();

@@ -39,7 +39,7 @@ export function HeaderSearchBar() {
   }, [searchTickers.data, query.length]);
 
   const handleSearch = (ticker: string) => {
-    router.push(`/authorized/${ticker}?dashboard=${currentDashboard}`);
+    router.push(`/authorized/old/${ticker}?dashboard=${currentDashboard}`);
   };
 
   return (

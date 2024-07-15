@@ -1,6 +1,5 @@
 
-import Old from "~/app/old";
-import Main from "~/app/main";
+import CheckAuth from "./checkauth";
 
 
 export default async function Home() {
@@ -8,7 +7,7 @@ export default async function Home() {
   return (
  
     <div> 
-        <Main /> 
+        <CheckAuth />
     </div>
   );
 }

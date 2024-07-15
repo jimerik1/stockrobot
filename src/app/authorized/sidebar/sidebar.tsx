@@ -2,8 +2,6 @@
 
 import Link from "next/link"
 import {
-  ChevronLeft,
-  ChevronRight,
   Home,
   ShoppingCart,
   Package,
@@ -50,12 +48,12 @@ export function Sidebar({ isExpanded }: SidebarProps) {
           <Package2 className="h-6 w-6 shrink-0" />
           {isExpanded && <span className="hidden sm:inline">Jims App</span>}
         </Link>
-        <NavItem href="/authorized/dashboard1" icon={Home} label="Dashboard 1" isExpanded={isExpanded} />
-        <NavItem href="/authorized/dashboard2" icon={ShoppingCart} label="Dashboard 2" isExpanded={isExpanded} />
-        <NavItem href="/authorized/orders" icon={ShoppingCart} label="Orders" isExpanded={isExpanded} />
-        <NavItem href="/authorized/products" icon={Package} label="Products" isExpanded={isExpanded} />
-        <NavItem href="/authorized/customers" icon={Users2} label="Customers" isExpanded={isExpanded} />
-        <NavItem href="/authorized/analytics" icon={LineChart} label="Analytics" isExpanded={isExpanded} />
+        <NavItem href="/authorized/old/dashboard1" icon={Home} label="Dashboard 1" isExpanded={isExpanded} />
+        <NavItem href="/authorized/old/dashboard2" icon={ShoppingCart} label="Dashboard 2" isExpanded={isExpanded} />
+        <NavItem href="/authorized/old/orders" icon={ShoppingCart} label="Orders" isExpanded={isExpanded} />
+        <NavItem href="/authorized/old/products" icon={Package} label="Products" isExpanded={isExpanded} />
+        <NavItem href="/authorized/old/customers" icon={Users2} label="Customers" isExpanded={isExpanded} />
+        <NavItem href="/authorized/old/analytics" icon={LineChart} label="Analytics" isExpanded={isExpanded} />
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
         <NavItem href="/settings" icon={Settings} label="Settings" isExpanded={isExpanded} />
