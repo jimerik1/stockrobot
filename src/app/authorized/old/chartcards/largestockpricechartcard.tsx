@@ -1,4 +1,6 @@
 // LargeStockpriceChartCard.tsx
+/* eslint-disable */
+
 import React, { useState, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "../../../../components/ui/card";
 import { CartesianGrid, Line, LineChart, XAxis, Tooltip } from "recharts";
