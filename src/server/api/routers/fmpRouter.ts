@@ -76,7 +76,7 @@ export const fmpRouter = createTRPCRouter({
       limit: z.number().optional()
     }))
     .query(async ({ input }) => {
-      const limit = input.limit || 10;
+      const limit = input.limit ?? 10;
       return fetchFromFMPAPI(`/stock_news?tickers=${input.ticker}&limit=${limit}`);
     }),
 
@@ -87,7 +87,7 @@ export const fmpRouter = createTRPCRouter({
       limit: z.number().optional()
     }))
     .query(async ({ input }) => {
-      const limit = input.limit || 100;
+      const limit = input.limit ?? 100;
       return fetchFromFMPAPI(`/insider-trading?symbol=${input.ticker}&limit=${limit}`);
     }),
 
