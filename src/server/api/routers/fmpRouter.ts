@@ -4,7 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { subDays, subWeeks, subMonths, subYears, format } from 'date-fns';
+import { subDays, subWeeks, subMonths, subYears, format, addDays } from 'date-fns';
 
 const API_BASE_URL = "https://financialmodelingprep.com/api/v3";
 const API_KEY = process.env.FMP_API_KEY;
@@ -16,33 +16,42 @@ type TimeRange = '1d' | '3d' | '1w' | '1m' | '1y' | '5y';
 const getDateRange = (timeRange: TimeRange) => {
   const now = new Date();
   let fromDate;
+  let interval;
 
   switch (timeRange) {
     case '1d':
       fromDate = subDays(now, 1);
+      interval = '1min';  // Changed from '2min' to '1min'
       break;
     case '3d':
       fromDate = subDays(now, 3);
+      interval = '5min';
       break;
     case '1w':
       fromDate = subWeeks(now, 1);
+      interval = '15min';  // Changed from '1hour' to '15min'
       break;
     case '1m':
       fromDate = subMonths(now, 1);
+      interval = '1hour';  // Changed from '12hour' to '1hour'
       break;
     case '1y':
       fromDate = subYears(now, 1);
+      interval = '1day';
       break;
     case '5y':
       fromDate = subYears(now, 5);
+      interval = '1day';
       break;
     default:
-      fromDate = subMonths(now, 1); // default to 1 month
+      fromDate = subMonths(now, 1);
+      interval = '1day';
   }
 
   return {
     from: format(fromDate, 'yyyy-MM-dd'),
-    to: format(now, 'yyyy-MM-dd'),
+    to: format(now, 'yyyy-MM-dd'),  // Changed to use current date without adding a day
+    interval,
   };
 };
 
@@ -83,25 +92,23 @@ export const fmpRouter = createTRPCRouter({
     }))
     .query(async ({ input }) => {
       const { ticker, timeRange } = input;
-      const { from, to } = getDateRange(timeRange);
+      const { from, to, interval } = getDateRange(timeRange);
       
-      let endpoint;
-      if (timeRange === '1d') {
-        endpoint = `/historical-chart/1min/${ticker}?from=${from}&to=${to}`;
-      } else {
-        endpoint = `/historical-price-full/${ticker}?from=${from}&to=${to}`;
-      }
+      let endpoint = `/historical-chart/${interval}/${ticker}?from=${from}&to=${to}`;
+  
+      console.log('Fetching data from endpoint:', endpoint);
   
       try {
         const data = await fetchFromFMPAPI(endpoint);
-        return data;
+        console.log('API Response:', data);
+        console.log('Data length:', data.length);
+  
+        return { data, from, to, interval };
       } catch (error) {
         console.error('Error fetching historical data:', error);
         throw error;
       }
-    }),
-  
-  
+    }),  
 
   
   

@@ -1,6 +1,5 @@
 // components/header.tsx
 import Link from "next/link";
-import { HeaderSearchBar } from "./headersearchbar";
 import { getServerAuthSession } from "~/server/auth";
 import { CircleUser, Menu, Package2 } from "lucide-react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
@@ -19,10 +18,7 @@ export async function Header() {
           <span className="sr-only">Acme Inc</span>
         </Link>
         <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">Dashboard</Link>
-        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">Orders</Link>
-        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">Products</Link>
-        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">Customers</Link>
-        <Link href="#" className="text-foreground transition-colors hover:text-foreground">Settings</Link>
+        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">Analysis</Link>
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -48,23 +44,8 @@ export async function Header() {
 
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Select defaultValue="dashboard1">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select Dashboard" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="dashboard1">Trader</SelectItem>
-                  <SelectItem value="dashboard2">Analyst</SelectItem>
-                  <SelectItem value="dashboard3">Technical Indicators</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </form>
 
-        <HeaderSearchBar />
+        </form>
 
         <div>Jim Strand</div>
         <DropdownMenu>

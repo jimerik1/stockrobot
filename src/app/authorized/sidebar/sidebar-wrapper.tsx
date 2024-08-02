@@ -10,7 +10,7 @@ export function SidebarWrapper() {
 
   return (
     <div 
-      className="relative h-full"
+      className="relative h-full hidden sm:block"
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >

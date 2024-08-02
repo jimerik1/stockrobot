@@ -93,3 +93,57 @@ model Ticker {
 
   @@index([ticker])
 }
+
+model Indicator {
+  id            Int      @id @default(autoincrement())
+  date          DateTime
+  ticker        String
+  marketName    String
+  open          Float
+  high          Float
+  low           Float
+  close         Float
+  adjClose      Float
+  volume        Float
+  macd          Float?
+  macdHistogram Float?
+  macdSignal    Float?
+  rsi           Float?
+  bblower       Float?
+  bbmiddle      Float?
+  bbupper       Float?
+  bbwidth       Float?
+  bbpercent     Float?
+  obv           Float
+  sma20         Float?
+  ema50         Float?
+  stochK        Float?
+  stochD        Float?
+  adx           Float?
+  dmp           Float?
+  dmn           Float?
+  williamsR     Float?
+  cmf           Float?
+  psarLong      Float?
+  psarShort     Float?
+  psarAf        Float
+  psarReverse   Float
+  obvInMillions Float
+
+  @@unique([date, ticker, marketName])
+  @@index([ticker, marketName, date])
+}
+
+model DailySummary {
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  summaryText String   @db.Text
+  ticker      String?
+  tickerText  String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([date, ticker])
+  @@index([date])
+  @@index([ticker])
+}

@@ -46,9 +46,9 @@ export function Sidebar({ isExpanded }: SidebarProps) {
             <nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
         <Link href="/" className="group flex h-9 w-full items-center gap-2 rounded-lg px-3 text-lg font-semibold">
           <Package2 className="h-6 w-6 shrink-0" />
-          {isExpanded && <span className="hidden sm:inline">Jims App</span>}
+          {isExpanded && <span className="hidden sm:inline">Automated Indicators</span>}
         </Link>
-        <NavItem href="/authorized/old/dashboard1" icon={Home} label="Dashboard 1" isExpanded={isExpanded} />
+        <NavItem href="/authorized/overviewanalyst/" icon={Home} label="Dashboard 1" isExpanded={isExpanded} />
         <NavItem href="/authorized/old/dashboard2" icon={ShoppingCart} label="Dashboard 2" isExpanded={isExpanded} />
         <NavItem href="/authorized/old/orders" icon={ShoppingCart} label="Orders" isExpanded={isExpanded} />
         <NavItem href="/authorized/old/products" icon={Package} label="Products" isExpanded={isExpanded} />

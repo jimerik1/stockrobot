@@ -4,6 +4,7 @@ import { stockRouter } from "./routers/stock";
 import { tickerRouter } from "./routers/ticker";
 import { getStockInfoRouter } from "./routers/getStockInfo";
 import { fmpRouter } from "./routers/fmpRouter";
+import { dataRouter } from "./routers/dataRouter";
 
 
 /**
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   ticker: tickerRouter,
   getstockinfo: getStockInfoRouter,
   fmpdata: fmpRouter,
+  getData: dataRouter,
 });
 
 // export type definition of API
