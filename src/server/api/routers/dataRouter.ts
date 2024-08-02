@@ -20,17 +20,18 @@ type DailySummary = z.infer<typeof DailySummarySchema>;
 
 export const dataRouter = createTRPCRouter({
   getDailySummary: protectedProcedure
-    .input(z.object({
-      date: z.date(),
-    }))
-    .query(async ({ input }) => {
-      const { date } = input;
-      const cacheKey = date.toISOString().split('T')[0];
-      
-      if (cache.has(cacheKey)) {
-        console.log('Returning cached result for:', cacheKey);
-        return cache.get(cacheKey) as DailySummary | null;
-      }
+  .input(z.object({
+    date: z.date(),
+  }))
+  .query(async ({ input }) => {
+    const { date } = input;
+    const cacheKey = date.toISOString().split('T')[0];
+    
+    const cachedData = cache.get(cacheKey);
+    if (cachedData && Date.now() - cachedData.timestamp < 10000) { // 1 minute cache
+      console.log('Returning cached result for:', cacheKey);
+      return cachedData.data as DailySummary | null;
+    }
 
       console.log('getDailySummary input:', { date });
       
