@@ -4,9 +4,6 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-// Simple in-memory cache
-const cache = new Map();
-
 // Define the shape of your DailySummary
 const DailySummarySchema = z.object({
   id: z.number(),
@@ -18,8 +15,16 @@ const DailySummarySchema = z.object({
   createdAt: z.date(),
 });
 
-
 type DailySummary = z.infer<typeof DailySummarySchema>;
+
+// Define the structure for cache entries
+interface CacheEntry {
+  timestamp: number;
+  data: DailySummary | null;
+}
+
+// Typed cache
+const cache = new Map<string, CacheEntry>();
 
 export const dataRouter = createTRPCRouter({
   getDailySummary: protectedProcedure
@@ -30,10 +35,14 @@ export const dataRouter = createTRPCRouter({
     const { date } = input;
     const cacheKey = date.toISOString().split('T')[0];
     
-    const cachedData = cache.get(cacheKey);
-    if (cachedData && Date.now() - cachedData.timestamp < 10000) { // 1 minute cache
+    if (!cacheKey) {
+      throw new Error("Invalid date: unable to generate cache key");
+    }
+
+    const cachedEntry = cache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < 60000) { // 1 minute cache
       console.log('Returning cached result for:', cacheKey);
-      return cachedData.data as DailySummary | null;
+      return cachedEntry.data;
     }
 
       console.log('getDailySummary input:', { date });
@@ -49,7 +58,7 @@ export const dataRouter = createTRPCRouter({
       console.log('SQL Query:', query);
       console.log('SQL Parameters:', [dateString]);
       
-      const result = await prisma.$queryRawUnsafe(query, dateString);
+      const result = await prisma.$queryRawUnsafe<unknown[]>(query, dateString);
       
       console.log('getDailySummary raw query result:', result);
       
@@ -64,7 +73,7 @@ export const dataRouter = createTRPCRouter({
       }
       
       // Cache the result
-      cache.set(cacheKey, summaryResult);
+      cache.set(cacheKey, { timestamp: Date.now(), data: summaryResult });
       
       return summaryResult;
     }),
