@@ -18,15 +18,44 @@ interface Ticker {
   taScore: string;
 }
 
-export function TickerCard() {
-  const [tickers, setTickers] = useState<Ticker[]>([]);
+interface DailySummary {
+  date: Date;
+  ticker: string | null;
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  summaryText: string;
+  tickerText: string | null;
+}
 
-  const [queryDate] = useState(() => {
+interface TickerData {
+  tickers: string[];
+}
+
+function useUTCDate() {
+  return useState(() => {
     const now = new Date();
     const utcDate = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
     utcDate.setUTCHours(0, 0, 0, 0);
     return utcDate;
-  });
+  })[0];
+}
+
+function getRecommendation(): string {
+  return "Recommendation";
+}
+
+function getComment(): string {
+  return "Comment";
+}
+
+function getTAScore(): string {
+  return "Score";
+}
+
+export function TickerCard() {
+  const [tickers, setTickers] = useState<Ticker[]>([]);
+  const queryDate = useUTCDate();
 
   const { data: dailySummary, isLoading, error } = api.getData.getDailySummary.useQuery(
     { date: queryDate },
@@ -38,10 +67,10 @@ export function TickerCard() {
   );
 
   useEffect(() => {
-    if (dailySummary && dailySummary.ticker) {
+    if (dailySummary?.tickerText) {
       try {
-        const tickerData = JSON.parse(dailySummary.ticker);
-        if (tickerData.tickers && Array.isArray(tickerData.tickers)) {
+        const tickerData = JSON.parse(dailySummary.tickerText) as TickerData;
+        if (Array.isArray(tickerData.tickers)) {
           const processedTickers: Ticker[] = tickerData.tickers.map((ticker: string) => ({
             symbol: ticker,
             recommendation: getRecommendation(),
@@ -86,16 +115,4 @@ export function TickerCard() {
       </Table>
     </Card>
   );
-}
-
-function getRecommendation() {
-  return "Recommendation";
-}
-
-function getComment() {
-  return "Comment";
-}
-
-function getTAScore() {
-  return "Score";
 }
