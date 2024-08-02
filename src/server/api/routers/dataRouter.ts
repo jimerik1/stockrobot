@@ -12,9 +12,12 @@ const DailySummarySchema = z.object({
   id: z.number(),
   date: z.date(),
   summaryText: z.string(),
+  ticker: z.string().nullable(),
+  tickerText: z.string().nullable(),
   updatedAt: z.date(),
-  // Add other fields as necessary
+  createdAt: z.date(),
 });
+
 
 type DailySummary = z.infer<typeof DailySummarySchema>;
 
