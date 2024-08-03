@@ -4,6 +4,14 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
+// Define the shape of your ParsedTickerText
+type ParsedTickerText = {
+  tickers: string[];
+  signals: string[];
+  comments: string[];
+  tascores: (string | number)[];
+};
+
 // Define the shape of your DailySummary
 const DailySummarySchema = z.object({
   id: z.number(),
@@ -43,6 +51,22 @@ type RawDailySummary = {
   createdAt: Date;
 };
 
+// Type guard function
+function isParsedTickerText(obj: unknown): obj is ParsedTickerText {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'tickers' in obj &&
+    'signals' in obj &&
+    'comments' in obj &&
+    'tascores' in obj &&
+    Array.isArray((obj as ParsedTickerText).tickers) &&
+    Array.isArray((obj as ParsedTickerText).signals) &&
+    Array.isArray((obj as ParsedTickerText).comments) &&
+    Array.isArray((obj as ParsedTickerText).tascores)
+  );
+}
+
 export const dataRouter = createTRPCRouter({
   getDailySummary: protectedProcedure
     .input(z.object({
@@ -79,12 +103,27 @@ export const dataRouter = createTRPCRouter({
       if (result.length > 0) {
         try {
           const rawSummary = result[0];
-          if (rawSummary) {  // Add this check
+          if (rawSummary) {
+            let parsedTickerText: ParsedTickerText | undefined;
+            
+            if (rawSummary.tickerText) {
+              try {
+                const parsed = JSON.parse(rawSummary.tickerText);
+                if (isParsedTickerText(parsed)) {
+                  parsedTickerText = parsed;
+                } else {
+                  console.error('Invalid parsedTickerText structure');
+                }
+              } catch (parseError) {
+                console.error('Failed to parse tickerText:', parseError);
+              }
+            }
+
             const summaryToValidate: Partial<DailySummary> = {
               ...rawSummary,
-              parsedTickerText: rawSummary.tickerText ? JSON.parse(rawSummary.tickerText) : undefined
+              parsedTickerText
             };
-      
+
             summaryResult = DailySummarySchema.parse(summaryToValidate);
           }
         } catch (error) {
