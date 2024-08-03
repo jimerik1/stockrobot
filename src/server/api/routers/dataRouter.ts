@@ -13,7 +13,14 @@ const DailySummarySchema = z.object({
   tickerText: z.string().nullable(),
   updatedAt: z.date(),
   createdAt: z.date(),
+  parsedTickerText: z.object({
+    tickers: z.array(z.string()),
+    signals: z.array(z.string()),
+    comments: z.array(z.string()),
+    tascores: z.array(z.union([z.string(), z.number()])),
+  }).optional(),
 });
+
 
 type DailySummary = z.infer<typeof DailySummarySchema>;
 
@@ -50,31 +57,32 @@ export const dataRouter = createTRPCRouter({
       const dateString = date.toISOString().split('T')[0];
       
       const query = `
-        SELECT * FROM "DailySummary"
-        WHERE DATE(date) = $1::date
-        LIMIT 1
-      `;
-      
-      console.log('SQL Query:', query);
-      console.log('SQL Parameters:', [dateString]);
-      
-      const result = await prisma.$queryRawUnsafe<unknown[]>(query, dateString);
-      
-      console.log('getDailySummary raw query result:', result);
-      
-      let summaryResult: DailySummary | null = null;
-      
-      if (Array.isArray(result) && result.length > 0) {
-        try {
-          summaryResult = DailySummarySchema.parse(result[0]);
-        } catch (error) {
-          console.error('Failed to parse DailySummary:', error);
+      SELECT * FROM "DailySummary"
+      WHERE DATE(date) = $1::date
+      LIMIT 1
+    `;
+    
+    const result = await prisma.$queryRawUnsafe<unknown[]>(query, dateString);
+    
+    let summaryResult: DailySummary | null = null;
+    
+    if (Array.isArray(result) && result.length > 0) {
+      try {
+        const rawSummary = result[0] as Record<string, unknown>;
+        if (typeof rawSummary.tickerText === 'string') {
+          const parsedTickerText = JSON.parse(rawSummary.tickerText);
+          rawSummary.parsedTickerText = parsedTickerText;
         }
+        summaryResult = DailySummarySchema.parse(rawSummary);
+      } catch (error) {
+        console.error('Failed to parse DailySummary:', error);
       }
-      
-      // Cache the result
-      cache.set(cacheKey, { timestamp: Date.now(), data: summaryResult });
-      
-      return summaryResult;
-    }),
+    }
+    
+    // Cache the result
+    cache.set(cacheKey, { timestamp: Date.now(), data: summaryResult });
+    
+    return summaryResult;
+  }),
 });
+

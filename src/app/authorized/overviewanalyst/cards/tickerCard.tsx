@@ -15,8 +15,9 @@ interface Ticker {
   symbol: string;
   recommendation: string;
   comment: string;
-  taScore: string;
+  taScore: string | number;
 }
+
 
 interface DailySummary {
   date: Date;
@@ -41,18 +42,6 @@ function useUTCDate() {
   })[0];
 }
 
-function getRecommendation(): string {
-  return "Recommendation";
-}
-
-function getComment(): string {
-  return "Comment";
-}
-
-function getTAScore(): string {
-  return "Score";
-}
-
 export function TickerCard() {
   const [tickers, setTickers] = useState<Ticker[]>([]);
   const queryDate = useUTCDate();
@@ -67,21 +56,15 @@ export function TickerCard() {
   );
 
   useEffect(() => {
-    if (dailySummary?.tickerText) {
-      try {
-        const tickerData = JSON.parse(dailySummary.tickerText) as TickerData;
-        if (Array.isArray(tickerData.tickers)) {
-          const processedTickers: Ticker[] = tickerData.tickers.map((ticker: string) => ({
-            symbol: ticker,
-            recommendation: getRecommendation(),
-            comment: getComment(),
-            taScore: getTAScore(),
-          }));
-          setTickers(processedTickers);
-        }
-      } catch (e) {
-        console.error("Error parsing ticker data:", e);
-      }
+    if (dailySummary?.parsedTickerText) {
+      const { tickers, signals, comments, tascores } = dailySummary.parsedTickerText;
+      const processedTickers: Ticker[] = tickers.map((ticker, index) => ({
+        symbol: ticker,
+        recommendation: signals[index] || "N/A",
+        comment: comments[index] || "N/A",
+        taScore: tascores[index] || "N/A",
+      }));
+      setTickers(processedTickers);
     }
   }, [dailySummary]);
 
