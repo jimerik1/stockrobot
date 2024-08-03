@@ -4,13 +4,15 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-// Define the shape of your ParsedTickerText
-type ParsedTickerText = {
-  tickers: string[];
-  signals: string[];
-  comments: string[];
-  tascores: (string | number)[];
-};
+// Define the shape of your ParsedTickerText using Zod
+const ParsedTickerTextSchema = z.object({
+  tickers: z.array(z.string()),
+  signals: z.array(z.string()),
+  comments: z.array(z.string()),
+  tascores: z.array(z.union([z.string(), z.number()])),
+});
+
+type ParsedTickerText = z.infer<typeof ParsedTickerTextSchema>;
 
 // Define the shape of your DailySummary
 const DailySummarySchema = z.object({
@@ -21,12 +23,7 @@ const DailySummarySchema = z.object({
   tickerText: z.string().nullable(),
   updatedAt: z.date(),
   createdAt: z.date(),
-  parsedTickerText: z.object({
-    tickers: z.array(z.string()),
-    signals: z.array(z.string()),
-    comments: z.array(z.string()),
-    tascores: z.array(z.union([z.string(), z.number()])),
-  }).optional(),
+  parsedTickerText: ParsedTickerTextSchema.optional(),
 });
 
 type DailySummary = z.infer<typeof DailySummarySchema>;
@@ -41,31 +38,17 @@ interface CacheEntry {
 const cache = new Map<string, CacheEntry>();
 
 // Type for raw database result
-type RawDailySummary = {
-  id: number;
-  date: Date;
-  summaryText: string;
-  ticker: string | null;
-  tickerText: string | null;
-  updatedAt: Date;
-  createdAt: Date;
-};
+const RawDailySummarySchema = z.object({
+  id: z.number(),
+  date: z.date(),
+  summaryText: z.string(),
+  ticker: z.string().nullable(),
+  tickerText: z.string().nullable(),
+  updatedAt: z.date(),
+  createdAt: z.date(),
+});
 
-// Type guard function
-function isParsedTickerText(obj: unknown): obj is ParsedTickerText {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    'tickers' in obj &&
-    'signals' in obj &&
-    'comments' in obj &&
-    'tascores' in obj &&
-    Array.isArray((obj as ParsedTickerText).tickers) &&
-    Array.isArray((obj as ParsedTickerText).signals) &&
-    Array.isArray((obj as ParsedTickerText).comments) &&
-    Array.isArray((obj as ParsedTickerText).tascores)
-  );
-}
+type RawDailySummary = z.infer<typeof RawDailySummarySchema>;
 
 export const dataRouter = createTRPCRouter({
   getDailySummary: protectedProcedure
@@ -96,36 +79,29 @@ export const dataRouter = createTRPCRouter({
         LIMIT 1
       `;
       
-      const result = await prisma.$queryRawUnsafe<RawDailySummary[]>(query, dateString);
+      const result = await prisma.$queryRawUnsafe<unknown[]>(query, dateString);
       
       let summaryResult: DailySummary | null = null;
       
       if (result.length > 0) {
         try {
-          const rawSummary = result[0];
-          if (rawSummary) {
-            let parsedTickerText: ParsedTickerText | undefined;
-            
-            if (rawSummary.tickerText) {
-              try {
-                const parsed = JSON.parse(rawSummary.tickerText);
-                if (isParsedTickerText(parsed)) {
-                  parsedTickerText = parsed;
-                } else {
-                  console.error('Invalid parsedTickerText structure');
-                }
-              } catch (parseError) {
-                console.error('Failed to parse tickerText:', parseError);
-              }
+          const rawSummary = RawDailySummarySchema.parse(result[0]);
+          let parsedTickerText: ParsedTickerText | undefined;
+          
+          if (rawSummary.tickerText) {
+            try {
+              parsedTickerText = ParsedTickerTextSchema.parse(JSON.parse(rawSummary.tickerText));
+            } catch (parseError) {
+              console.error('Failed to parse tickerText:', parseError);
             }
-
-            const summaryToValidate: Partial<DailySummary> = {
-              ...rawSummary,
-              parsedTickerText
-            };
-
-            summaryResult = DailySummarySchema.parse(summaryToValidate);
           }
+
+          const summaryToValidate: DailySummary = {
+            ...rawSummary,
+            parsedTickerText
+          };
+
+          summaryResult = DailySummarySchema.parse(summaryToValidate);
         } catch (error) {
           console.error('Failed to parse DailySummary:', error);
         }
