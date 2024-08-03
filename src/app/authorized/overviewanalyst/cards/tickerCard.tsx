@@ -60,9 +60,9 @@ export function TickerCard() {
       const { tickers, signals, comments, tascores } = dailySummary.parsedTickerText;
       const processedTickers: Ticker[] = tickers.map((ticker, index) => ({
         symbol: ticker,
-        recommendation: signals[index] || "N/A",
-        comment: comments[index] || "N/A",
-        taScore: tascores[index] || "N/A",
+        recommendation: signals[index] ?? "N/A",
+        comment: comments[index] ?? "N/A",
+        taScore: tascores[index] ?? "N/A",
       }));
       setTickers(processedTickers);
     }
